@@ -28,7 +28,7 @@ exports.handler = async function(event) {
   console.log('Constructed Thinkific URL:', thinkificUrl);
 
   // Define the GoHighLevel webhook URL
-  const goHighLevelWebhookUrl = 'https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/586e46e3-45b6-4e96-9e5e-65895d5dfbb6';
+  const goHighLevelWebhookUrl = "https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/36af9f0b-14f6-4bd1-a139-653f83d90011"
 
   try {
     // Sending the constructed Thinkific URL to GoHighLevel webhook
