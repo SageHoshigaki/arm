@@ -30,7 +30,7 @@ const thinkificUrl = `https://www.askjensanford.com/order?ct=61cfd743-9ece-4d1b-
   console.log('Constructed Thinkific URL:', thinkificUrl);
 
   // Define the GoHighLevel webhook URL
-  const goHighLevelWebhookUrl = "https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/36af9f0b-14f6-4bd1-a139-653f83d90011"
+  const goHighLevelWebhookUrl = "https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/9a08e261-470f-40f6-88fb-015a7911011f"
 
   try {
     // Sending the constructed Thinkific URL to GoHighLevel webhook
