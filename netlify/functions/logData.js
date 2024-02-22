@@ -36,6 +36,7 @@ const thinkificUrl = `https://www.askjensanford.com/order?ct=61cfd743-9ece-4d1b-
     // Sending the constructed Thinkific URL to GoHighLevel webhook
     const response = await axios.post(goHighLevelWebhookUrl, {
       thinkificUrl: thinkificUrl,
+      customData: customData
     });
 
     console.log('Response from GoHighLevel webhook:', response.data);
