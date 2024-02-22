@@ -1,7 +1,6 @@
 
 import './App.css';
 import React from 'react';
-import WebhookTest from './WebhookTest'; // Import your webhook component
 
 function App() {
   return (
@@ -10,7 +9,7 @@ function App() {
         <h1>React App with Netlify Function</h1>
       </header>
       <main>
-        <WebhookTest /> {/* Use your webhook component */}
+        <webhookTest /> {/* Use your webhook component */}
       </main>
     </div>
   );
