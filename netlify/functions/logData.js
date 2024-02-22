@@ -24,7 +24,9 @@ exports.handler = async function(event) {
     zip: customData.Zip
   }).toString();
 
-  const thinkificUrl = `https://www.askjensanford.com/order?${queryParams}`;
+// Correctly append query parameters to the Thinkific URL
+const thinkificUrl = `https://www.askjensanford.com/order?ct=61cfd743-9ece-4d1b-84de-392064402685&${queryParams}`;
+
   console.log('Constructed Thinkific URL:', thinkificUrl);
 
   // Define the GoHighLevel webhook URL
