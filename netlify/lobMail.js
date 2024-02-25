@@ -1,6 +1,4 @@
 const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
 
 exports.handler = async function(event, context) {
   try {
@@ -9,7 +7,7 @@ exports.handler = async function(event, context) {
     const incomingData = JSON.parse(event.body);
     const customData = incomingData.customData;
 
-    if (!customData || !customData.document || !customData.Email) {
+    if (!customData || !customData.document) {
       throw new Error('Missing required fields.');
     }
 
@@ -19,46 +17,42 @@ exports.handler = async function(event, context) {
       throw new Error('Invalid document URL.');
     }
 
-    const userData = {
-      firstName: customData['first name'],
-      lastName: customData['last name'],
-      email: customData.Email,
-      phone: customData.Phone, // Assuming phone number is under "Phone"
-      document: documentUrl
+    // Download the document
+    const responseDocument = await axios.get(documentUrl, { responseType: 'arraybuffer' });
+    const documentContent = responseDocument.data;
+
+    // Prepare Lob API request
+    const lobApiKey = 'your_lob_api_key';
+    const lobUrl = 'https://api.lob.com/v1/letters';
+
+    const lobPayload = {
+      description: 'Mail Delivery Document',
+      to: {
+        // Add recipient details
+      },
+      from: {
+        // Add sender details
+      },
+      file: Buffer.from(documentContent).toString('base64'),
+      color: true // Example parameter, customize as needed
     };
 
-    const webhookUrl = 'YOUR_WEBHOOK_URL';
-
-    // Sending reduced payload to the specified webhook URL
-    await axios.post(webhookUrl, userData);
-    console.log('Data sent successfully');
-
-    // Download the document
-    const responseDocument = await axios({
-      url: documentUrl,
-      method: 'GET',
-      responseType: 'stream'
+    const lobResponse = await axios.post(lobUrl, lobPayload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${Buffer.from(lobApiKey + ':').toString('base64')}`
+      }
     });
 
-    const tempPath = path.join('/tmp', path.basename(documentUrl));
-    const writer = fs.createWriteStream(tempPath);
+    console.log('Document sent to Lob successfully:', lobResponse.data);
 
-    responseDocument.data.pipe(writer);
-
-    return await new Promise((resolve, reject) => {
-      writer.on('finish', () => resolve({
-        statusCode: 200,
-        body: JSON.stringify({ message: "Data and document processed successfully" }),
-      }));
-      writer.on('error', () => reject({
-        statusCode: 500,
-        body: JSON.stringify({ message: "Failed to write document" }),
-      }));
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Document processed and sent to Lob successfully" }),
+    };
   } catch (error) {
     console.error('Error in process:', error.message);
 
-    // Return a response with appropriate status code and error message
     return {
       statusCode: error.response ? error.response.status : 500,
       body: JSON.stringify({ message: "Failed to process data", error: error.message }),
