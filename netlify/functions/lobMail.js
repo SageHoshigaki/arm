@@ -2,59 +2,43 @@ const axios = require('axios');
 
 exports.handler = async function(event, context) {
   try {
+    // Check if event body is present
     if (!event.body) throw new Error('No event body.');
 
+    // Log incoming data
+    console.log('Received event:', event.body);
     const incomingData = JSON.parse(event.body);
-    const customData = incomingData.customData;
 
-    if (!customData || !customData.document) {
-      throw new Error('Missing required fields.');
-    }
+    // Ensure customData is present and log it
+    if (!incomingData.customData) throw new Error('Missing customData.');
+    console.log('Custom data:', incomingData.customData);
 
-    const documentUrl = customData.document;
-    // Basic validation of URL
-    if (!documentUrl.startsWith('http://') && !documentUrl.startsWith('https://')) {
-      throw new Error('Invalid document URL.');
-    }
+    // Extract and log the document URL
+    const documentUrl = incomingData.customData.document;
+    if (!documentUrl) throw new Error('Document URL is missing.');
+    console.log('Document URL:', documentUrl);
 
-    // Download the document
-    const responseDocument = await axios.get(documentUrl, { responseType: 'arraybuffer' });
-    const documentContent = responseDocument.data;
+    // Simulate document download by logging the URL
+    // In a real scenario, you might download or process the document here
+    console.log(`Simulated document download from URL: ${documentUrl}`);
 
-    // Prepare Lob API request
-    const lobApiKey = 'your_lob_api_key';
-    const lobUrl = 'https://api.lob.com/v1/letters';
+    // Optionally, fetch and log the document content (simulated here)
+    // Commented out because we're focusing on logging, not real downloading
+    // const response = await axios.get(documentUrl, { responseType: 'arraybuffer' });
+    // console.log('Downloaded document content:', response.data);
 
-    const lobPayload = {
-      description: 'Mail Delivery Document',
-      to: {
-        // Add recipient details
-      },
-      from: {
-        // Add sender details
-      },
-      file: Buffer.from(documentContent).toString('base64'),
-      color: true // Example parameter, customize as needed
-    };
-
-    const lobResponse = await axios.post(lobUrl, lobPayload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${Buffer.from(lobApiKey + ':').toString('base64')}`
-      }
-    });
-
-    console.log('Document sent to Lob successfully:', lobResponse.data);
+    // Log success message
+    console.log('Document processed successfully.');
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Document processed and sent to Lob successfully" }),
+      body: JSON.stringify({ message: "Document processed successfully" }),
     };
   } catch (error) {
-    console.error('Error in process:', error.message);
+    console.error('Error in process:', error);
 
     return {
-      statusCode: error.response ? error.response.status : 500,
+      statusCode: 500,
       body: JSON.stringify({ message: "Failed to process data", error: error.message }),
     };
   }
