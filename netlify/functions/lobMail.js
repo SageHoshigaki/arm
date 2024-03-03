@@ -30,6 +30,12 @@ exports.handler = async function(event, context) {
     // Log success message
     console.log('Document processed successfully.');
 
+    // Send processed document URL back to Go High Level webhook
+    const webhookUrl = 'https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/80a4f41b-d083-4b54-acc4-c53580d8b86c';
+    await axios.post(webhookUrl, { documentUrl });
+
+    console.log('Processed document URL sent to Go High Level webhook.');
+
     return {
       statusCode: 200,
       body: JSON.stringify({ message: "Document processed successfully" }),
