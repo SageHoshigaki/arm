@@ -52,7 +52,7 @@ exports.handler = async function(event) {
 
     // Example: Update GoHighLevel with the tracking information
     // Replace 'your_gohighlevel_webhook_url_here' with your actual webhook URL
-    const webhookUrl = 'your_gohighlevel_webhook_url_here';
+    const webhookUrl = 'https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/80a4f41b-d083-4b54-acc4-c53580d8b86c';
     await axios.post(webhookUrl, {
       trackingNumber: trackingNumber,
       message: "Document sent successfully."
