@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
   };
 
   // URL to the webhook or API where you want to send the data
-  const webhookUrl = 'https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/qkshxIRevCa5vDIRYZ8I';
+  const webhookUrl = "https://services.leadconnectorhq.com/hooks/dG3FsvCYnI8qISnp4jfv/webhook-trigger/86a2b0ef-773b-4575-9b7a-086b0b7cd845";
 
   try {
     // Sending the payload to the specified webhook URL
