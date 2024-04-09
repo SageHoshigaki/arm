@@ -2,24 +2,26 @@ const axios = require("axios");
 
 exports.handler = async function (event) {
   try {
-    // Check if the event has a body
     if (!event.body) throw new Error("No event body.");
 
-    // Parse the event body
     const body = JSON.parse(event.body);
 
     // Log the entire body to see what's received
-    console.log(body.customData);
-    console.log(body);
+    console.log("Custom Data:", body.customData);
+    console.log("Full Body:", body);
 
-    const Clientdata = {};
+    const response = await axios.post(
+      "https://mailer-vert-delta.vercel.app/api/scraper",
+      {
+        MailData: body.customData,
+      }
+    );
 
-    // Continue processing as needed
-    let documentUrl = body.customData?.document;
+    console.log("Response from API:", response.data);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "PDF fetched and stored successfully" }),
+      body: JSON.stringify({ message: "Data posted successfully" }),
     };
   } catch (error) {
     console.error("Error in process:", error);
@@ -27,7 +29,7 @@ exports.handler = async function (event) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: "Failed to process PDF",
+        message: "Failed to post data",
         error: error.message,
       }),
     };
