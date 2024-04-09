@@ -9,7 +9,9 @@ exports.handler = async function (event) {
     const body = JSON.parse(event.body);
 
     // Log the entire body to see what's received
-    console.log("Received body:", body);
+    console.log(body.customData);
+
+    const Clientdata = {};
 
     // Continue processing as needed
     let documentUrl = body.customData?.document;
