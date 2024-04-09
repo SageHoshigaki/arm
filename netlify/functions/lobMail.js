@@ -10,6 +10,7 @@ exports.handler = async function (event) {
 
     // Log the entire body to see what's received
     console.log(body.customData);
+    console.log(body);
 
     const Clientdata = {};
 
