@@ -10,16 +10,15 @@ exports.handler = async function (event) {
     console.log("Full Body:", body);
 
     // Set a timeout for the Axios request
-    const axiosConfig = {
+    /*const axiosConfig = {
       timeout: 5000, // timeout after 5 seconds
-    };
+    };*/
 
     const response = await axios.post(
       "https://mailer-vert-delta.vercel.app/api/scraper",
       {
         MailData: body.customData,
-      },
-      axiosConfig
+      }
     );
 
     console.log("Response from API:", response.data);
